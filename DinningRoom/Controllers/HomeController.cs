@@ -33,5 +33,15 @@ namespace DinningRoom.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        public IActionResult NewOrder ()
+        {
+            return View();
+        }
+
+        public IActionResult TableOfOrders()
+        {
+            return View();
+        }
     }
 }
