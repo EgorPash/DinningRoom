@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace DinningRoom.Models
 {
-    public class MenuItemModel
+    public class OrderModel
     {
         public int Id { get; set; }
         public string Name { get; set; }

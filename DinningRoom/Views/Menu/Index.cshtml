@@ -1,0 +1,28 @@
+﻿@model List<DinningRoom.Models.MenuItemModel>
+<h1>Меню</h1>
+<form asp-controller="Menu" asp-action="Order" method="post">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Название</th>
+                <th>Описание</th>
+                <th>Цена</th>
+                <th>Выбрать</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Name</td>
+                    <td>@item.Description</td>
+                    <td>@item.Price.ToString("C")</td>
+                    <td>
+                        <input type="checkbox" name="selectedItems" value="@item.Id" />
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <button type="submit" class="btn btn-primary">Заказать</button>
+</form>

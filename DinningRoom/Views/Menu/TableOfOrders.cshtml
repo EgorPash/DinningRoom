@@ -1,15 +1,17 @@
 ﻿@model List<DinningRoom.Models.MenuItemModel>
-<h1>Мои заказы</h1>
+
+<h1>Мои заказ</h1>
 <table class="table">
     <thead>
         <tr>
             <th>Название</th>
             <th>Описание</th>
             <th>Цена</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
+        @foreach (var item in @Model)
         {
             <tr>
                 <td>@item.Name</td>
