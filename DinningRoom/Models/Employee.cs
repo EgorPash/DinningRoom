@@ -5,12 +5,12 @@ using System.Threading.Tasks;
 
 namespace DinningRoom.Models
 {
-    public class MenuItemModel
+    public class Employee
     {
         public int Id { get; set; }
+        public string Surname { get; set; }
         public string Name { get; set; }
-        public string Description { get; set; }
-        public decimal Price { get; set; }
-        public int Order { get; set; }
+        public string MiddleName { get; set; }
+        public string Email { get; set; }
     }
 }

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using DinningRoom.Models;
+using DinningRoom.ViewModels;
 
 namespace DinningRoom.Controllers
 {
@@ -31,7 +31,7 @@ namespace DinningRoom.Controllers
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            return View(new Models.ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
         public IActionResult NewOrder ()
@@ -41,7 +41,7 @@ namespace DinningRoom.Controllers
 
         public IActionResult TableOfOrders()
         {
-            return View();
+            return View(MyStaticClass._selectedItems);
         }
     }
 }
