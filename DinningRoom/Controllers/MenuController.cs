@@ -8,13 +8,21 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using DinningRoom.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace DinningRoom.Controllers
 {
     public class MenuController : Controller
     {
         public readonly List<MenuItemModel> _menu;
-        
+
+        private readonly AppDbContext _dbContext;
+
+        public MenuController(AppDbContext dbContext)
+        {
+            _dbContext = dbContext;
+        }
 
         public MenuController()
         {
@@ -51,6 +59,46 @@ namespace DinningRoom.Controllers
         public IActionResult TableOfOrders()
         {
             return View(MyStaticClass._selectedItems);
+        }
+
+        [HttpPost]
+        public IActionResult AddMenuItem(MenuItemModel newItem)
+        {
+            if (ModelState.IsValid)
+            {
+                _dbContext.Menus.Add(new Menu { NameEat = newItem.Name, Price = newItem.Price, IdCategory = newItem.CategoryId });
+                _dbContext.SaveChanges();
+                return RedirectToAction("Index"); // или другой метод для перенаправления
+            }
+            return View(newItem);
+        }
+        public IActionResult DeleteMenuItem(int id)
+        {
+            var menuItem = _dbContext.Menus.Find(id);
+            if (menuItem != null)
+            {
+                _dbContext.Menus.Remove(menuItem);
+                _dbContext.SaveChanges();
+            }
+            return RedirectToAction("Index"); // или другой метод для перенаправления
+        }
+
+        [HttpPost]
+        public IActionResult UpdateMenuItem(MenuItemModel updatedItem)
+        {
+            if (ModelState.IsValid)
+            {
+                var existingItem = dbContext.Menus.Find(updatedItem.Id);
+                if (existingItem != null)
+                {
+                    existingItem.NameEat = updatedItem.Name;
+                    existingItem.Price = updatedItem.Price;
+                    existingItem.IdCategory = updatedItem.IdCategory;
+                    _dbContext.SaveChanges();
+                    return RedirectToAction("Index"); // или другой метод для перенаправления
+                }
+            }
+            return View(updatedItem);
         }
     }
 }
