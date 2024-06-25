@@ -9,7 +9,7 @@ namespace DinningRoom.Models
     {
         public int Id { get; set; }
         public int IdEmployee { get; set; }
-        public int DateOfOrder { get; set; }
+        public DateTime DateOfOrder { get; set; }
         public int TotalSum { get; set; }
     }
 }

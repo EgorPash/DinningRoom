@@ -1,8 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DinningRoom.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class InitialCreated : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -57,7 +58,7 @@ namespace DinningRoom.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     IdEmployee = table.Column<int>(nullable: false),
-                    DateOfOrder = table.Column<int>(nullable: false),
+                    DateOfOrder = table.Column<DateTime>(nullable: false),
                     TotalSum = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -72,8 +73,10 @@ namespace DinningRoom.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     IdEmployee = table.Column<int>(nullable: false),
+                    NameEat = table.Column<string>(nullable: true),
                     IdEat = table.Column<int>(nullable: false),
-                    Quantity = table.Column<int>(nullable: false)
+                    Quantity = table.Column<int>(nullable: false),
+                    IdOrder = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {

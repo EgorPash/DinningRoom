@@ -22,17 +22,14 @@ namespace DinningRoom.Controllers
         public MenuController(AppDbContext dbContext)
         {
             _dbContext = dbContext;
-        }
-
-        public MenuController()
-        {
             _menu = new List<MenuItemModel>
             {
-                new MenuItemModel { Id = 1, Name = "Бургер", Description = "Вкусный бургер", Price = 10.99m },
-                new MenuItemModel { Id = 2, Name = "Салат", Description = "Свежий салат", Price = 7.50m },
-                new MenuItemModel { Id = 3, Name = "Пицца", Description = "Ароматная пицца", Price = 15.75m }
+                new MenuItemModel { Id = 1, Name = "Бургер", Description = "Вкусный бургер", Price = 11 },
+                new MenuItemModel { Id = 2, Name = "Салат", Description = "Свежий салат", Price = 8 },
+                new MenuItemModel { Id = 3, Name = "Пицца", Description = "Ароматная пицца", Price = 16 }
             };
         }
+
 
         public IActionResult Index()
         {
@@ -53,8 +50,18 @@ namespace DinningRoom.Controllers
         public IActionResult Order(List<int> selectedItems)
         {
             MyStaticClass._selectedItems = _menu.Where(item => selectedItems.Contains(item.Id)).ToList();
+            
+            Orders orders = new Orders();
+
+            orders.IdEmployee = 1;
+            orders.DateOfOrder = DateTime.Now;
+            orders.TotalSum = _menu.Where(item => selectedItems.Contains(item.Id)).Sum(x => x.Price);
+            _dbContext.Orders.Add(orders);
+            _dbContext.SaveChanges();
+
             return RedirectToAction("TableOfOrders");
         }
+
 
         public IActionResult TableOfOrders()
         {
@@ -66,7 +73,7 @@ namespace DinningRoom.Controllers
         {
             if (ModelState.IsValid)
             {
-                _dbContext.Menus.Add(new Menu { NameEat = newItem.Name, Price = newItem.Price, IdCategory = newItem.CategoryId });
+                _dbContext.Menus.Add(new Menu { NameEat = newItem.Name, Price = newItem.Price, IdCategory = newItem.IdCategory });
                 _dbContext.SaveChanges();
                 return RedirectToAction("Index"); // или другой метод для перенаправления
             }
@@ -88,7 +95,7 @@ namespace DinningRoom.Controllers
         {
             if (ModelState.IsValid)
             {
-                var existingItem = dbContext.Menus.Find(updatedItem.Id);
+                var existingItem = _dbContext.Menus.Find(updatedItem.Id);
                 if (existingItem != null)
                 {
                     existingItem.NameEat = updatedItem.Name;
