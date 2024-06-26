@@ -41,7 +41,7 @@ namespace DinningRoom.Controllers
 
         public IActionResult TableOfOrders()
         {
-            return View(MyStaticClass._selectedItems);
+            return View();
         }
     }
 }

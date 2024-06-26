@@ -1,15 +1,9 @@
-﻿using System;
+﻿using DinningRoom.Models;
+using DinningRoom.ViewModels;
+using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using DinningRoom.ViewModels;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using DinningRoom.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace DinningRoom.Controllers
 {
@@ -39,9 +33,9 @@ namespace DinningRoom.Controllers
         public IActionResult Order(int id)
         {
             var selectedItem = _menu.FirstOrDefault(item => item.Id == id);
-            if (selectedItem != null && !MyStaticClass._selectedItems.Contains(selectedItem))
+          //if (selectedItem != null && s.Contains(selectedItem))
             {
-                // _selectedItems.Add(selectedItem);
+               // _selectedItems.Add(selectedItem);
             }
             return RedirectToAction("Index");
         }
@@ -49,7 +43,6 @@ namespace DinningRoom.Controllers
         [HttpPost]
         public IActionResult Order(List<int> selectedItems)
         {
-            MyStaticClass._selectedItems = _menu.Where(item => selectedItems.Contains(item.Id)).ToList();
             
             Orders orders = new Orders();
 
@@ -59,13 +52,30 @@ namespace DinningRoom.Controllers
             _dbContext.Orders.Add(orders);
             _dbContext.SaveChanges();
 
-            return RedirectToAction("TableOfOrders");
+            foreach (var item in selectedItems)
+            {
+                
+
+                StringsOfOrder stringoforder = new StringsOfOrder();
+
+                stringoforder.IdEmployee = 1;
+                stringoforder.NameEat = _menu.Where(X => X.Id == item).Select(x => x.Name).FirstOrDefault();
+                stringoforder.IdEat = _menu.Where(X => X.Id == item).Select(x => x.Id).FirstOrDefault();
+                stringoforder.Quantity = 1;
+                stringoforder.IdOrder = orders.Id;
+                _dbContext.StringsOfOrders.Add(stringoforder);
+                _dbContext.SaveChanges();
+            }
+
+            return RedirectToAction("Order");
+
+         
         }
 
 
         public IActionResult TableOfOrders()
         {
-            return View(MyStaticClass._selectedItems);
+            return View();
         }
 
         [HttpPost]
