@@ -1,9 +1,11 @@
 ﻿using DinningRoom.Models;
 using DinningRoom.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace DinningRoom.Controllers
 {
@@ -33,10 +35,11 @@ namespace DinningRoom.Controllers
         public IActionResult Order(int id)
         {
             var selectedItem = _menu.FirstOrDefault(item => item.Id == id);
+            var orderItems = _dbContext.Orders.ToList();
           //if (selectedItem != null && s.Contains(selectedItem))
-            {
+        //    {
                // _selectedItems.Add(selectedItem);
-            }
+        //    }
             return RedirectToAction("Index");
         }
 
@@ -67,9 +70,9 @@ namespace DinningRoom.Controllers
                 _dbContext.SaveChanges();
             }
 
-            return RedirectToAction("Order");
+            return RedirectToAction("Order", new { id = orders.Id });
 
-         
+
         }
 
 
