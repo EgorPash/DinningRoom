@@ -34,13 +34,14 @@ namespace DinningRoom.Controllers
 
         public IActionResult Order(int id)
         {
-            var selectedItem = _menu.FirstOrDefault(item => item.Id == id);
-            var orderItems = _dbContext.Orders.ToList();
-          //if (selectedItem != null && s.Contains(selectedItem))
-        //    {
-               // _selectedItems.Add(selectedItem);
-        //    }
-            return RedirectToAction("Index");
+            ViewBag.Id = id;
+            // var selectedItem = _menu.FirstOrDefault(item => item.Id == id);
+            var orderItems = _dbContext.StringsOfOrders.Where(item => item.IdOrder == id).ToList();
+            return View(orderItems);
+            //if (selectedItem != null && s.Contains(selectedItem))
+            //    {
+            // _selectedItems.Add(selectedItem);
+            //    }
         }
 
         [HttpPost]
@@ -66,6 +67,7 @@ namespace DinningRoom.Controllers
                 stringoforder.IdEat = _menu.Where(X => X.Id == item).Select(x => x.Id).FirstOrDefault();
                 stringoforder.Quantity = 1;
                 stringoforder.IdOrder = orders.Id;
+                stringoforder.Price = _menu.Where(X => X.Id == item).Select(x => x.Price).FirstOrDefault();
                 _dbContext.StringsOfOrders.Add(stringoforder);
                 _dbContext.SaveChanges();
             }

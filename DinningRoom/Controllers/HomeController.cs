@@ -5,17 +5,22 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using DinningRoom.Models;
 using DinningRoom.ViewModels;
+using Microsoft.EntityFrameworkCore;
 
 namespace DinningRoom.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly AppDbContext _dbContext;
+
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, AppDbContext dbContext)
         {
             _logger = logger;
+            _dbContext = dbContext;
         }
 
         public IActionResult Index()
@@ -41,7 +46,19 @@ namespace DinningRoom.Controllers
 
         public IActionResult TableOfOrders()
         {
+            var orders = _dbContext.Orders.ToList();
+            //var orderItems = new List<List<StringsOfOrder>>();
+
+            //@foreach(var item in Model)
+            //{
+            //    var items = _dbContext.StringsOfOrders.Where(item => item.IdOrder == orders.Id).ToList();
+            //    orders.Add(items);
+            //}
+
+            //ViewBag.Orders = orders;
+            //ViewBag.OrderItems = orderItems;
+
             return View();
-        }
+        }  
     }
 }

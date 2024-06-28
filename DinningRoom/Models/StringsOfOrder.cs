@@ -13,5 +13,6 @@ namespace DinningRoom.Models
         public int IdEat { get; set; }
         public int Quantity { get; set; }
         public int IdOrder { get; set; }
+        public int Price { get; set; }
     }
 }
