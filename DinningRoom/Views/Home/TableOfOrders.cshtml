@@ -1,33 +1,28 @@
-﻿@model List<List<StringsOfOrder>>
+﻿@model List<Orders>
 
 <h1>Список всех заказов</h1>
-@*@foreach (var items in Model)
-{
 <table class="table">
- <thead>
-  <tr>
-  <th>НомерБлюда</th>
-  <th>Название</th>
-  <th>Количество</th>
-  <th>Цена</th>
-  </tr>
- </thead>
- <tbody>
-  @foreach (var item in items)
-  {
-      <tr>
-          <td>@item.IdEat</td>
-          <td>@item.NameEat</td>
-          <td>@item.Quantity</td >
-              <td>@item.Price.ToString("C")</td>
-          // Добавьте столбец цены каждого блюда здесь
-      </tr >
-   }
- </>
-
-}
-}
-
-<p>
-    <a href="/Home/Index">Вернуться на главную страницу.</a>
-</p>*@
+    <thead>
+        <tr>
+            <th>НомерЗаказа</th>
+            <th>IdСотрудника</th>
+            <th>ДатаЗаказа</th>
+            <th>ИтоговаяСумма</th>
+            <th>Действие</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.IdEmployee</td>
+                <td>@item.DateOfOrder</td>
+                <td>@item.TotalSum.ToString("C")</td>
+                <td>
+                    <a href="@Url.Action("Order","Menu", new { id = item.Id})"> Перейти</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

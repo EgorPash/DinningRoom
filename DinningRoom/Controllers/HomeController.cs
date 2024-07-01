@@ -47,18 +47,8 @@ namespace DinningRoom.Controllers
         public IActionResult TableOfOrders()
         {
             var orders = _dbContext.Orders.ToList();
-            //var orderItems = new List<List<StringsOfOrder>>();
 
-            //@foreach(var item in Model)
-            //{
-            //    var items = _dbContext.StringsOfOrders.Where(item => item.IdOrder == orders.Id).ToList();
-            //    orders.Add(items);
-            //}
-
-            //ViewBag.Orders = orders;
-            //ViewBag.OrderItems = orderItems;
-
-            return View();
+            return View(orders);
         }  
     }
 }
