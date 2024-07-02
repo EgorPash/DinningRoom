@@ -126,6 +126,13 @@ namespace DinningRoom.Controllers
         public IActionResult TableOfEatsToday()
         {
             var eat = new List<Eats>();
+            var TodayOrders = _dbContext.Orders.Where(order => order.DateOfOrder.Date == DateTime.Now.Date).ToList();
+
+            foreach (var OneOrder in TodayOrders)
+            {
+                var OneOrderItems = _dbContext.StringsOfOrders.Where(item => item.IdOrder == OneOrder.Id).ToList();
+             //   eat.AddRange(OneOrderItems);
+            }
             return View(eat);
         }
     }
