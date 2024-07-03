@@ -48,7 +48,7 @@ namespace DinningRoom.Controllers
         [HttpPost]
         public IActionResult Order(List<int> selectedItems)
         {
-            
+
             Orders orders = new Orders();
 
             orders.IdEmployee = 1;
@@ -59,7 +59,7 @@ namespace DinningRoom.Controllers
 
             foreach (var item in selectedItems)
             {
-                
+
 
                 StringsOfOrder stringoforder = new StringsOfOrder();
 
@@ -77,61 +77,29 @@ namespace DinningRoom.Controllers
 
 
         }
-
-
-        public IActionResult TableOfOrders()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public IActionResult AddMenuItem(MenuItemModel newItem)
-        {
-            if (ModelState.IsValid)
-            {
-                _dbContext.Menus.Add(new Menu { NameEat = newItem.Name, Price = newItem.Price, IdCategory = newItem.IdCategory });
-                _dbContext.SaveChanges();
-                return RedirectToAction("Index"); // или другой метод для перенаправления
-            }
-            return View(newItem);
-        }
-        public IActionResult DeleteMenuItem(int id)
-        {
-            var menuItem = _dbContext.Menus.Find(id);
-            if (menuItem != null)
-            {
-                _dbContext.Menus.Remove(menuItem);
-                _dbContext.SaveChanges();
-            }
-            return RedirectToAction("Index"); // или другой метод для перенаправления
-        }
-
-        [HttpPost]
-        public IActionResult UpdateMenuItem(MenuItemModel updatedItem)
-        {
-            if (ModelState.IsValid)
-            {
-                var existingItem = _dbContext.Menus.Find(updatedItem.Id);
-                if (existingItem != null)
-                {
-                    existingItem.NameEat = updatedItem.Name;
-                    existingItem.Price = updatedItem.Price;
-                    existingItem.IdCategory = updatedItem.IdCategory;
-                    _dbContext.SaveChanges();
-                    return RedirectToAction("Index"); // или другой метод для перенаправления
-                }
-            }
-            return View(updatedItem);
-        }
         public IActionResult TableOfEatsToday()
         {
-            var eat = new List<Eats>();
+            var eat = new Dictionary<string, int>();
             var TodayOrders = _dbContext.Orders.Where(order => order.DateOfOrder.Date == DateTime.Now.Date).ToList();
 
             foreach (var OneOrder in TodayOrders)
             {
                 var OneOrderItems = _dbContext.StringsOfOrders.Where(item => item.IdOrder == OneOrder.Id).ToList();
-             //   eat.AddRange(OneOrderItems);
+
+                foreach (var ItemsOfEats in OneOrderItems)
+                {
+                    // Содержит наименование блюда
+                    string NameEatOfOrder = ItemsOfEats.NameEat;
+
+                    if (!eat.ContainsKey(NameEatOfOrder))
+                    {
+                        eat[NameEatOfOrder] = 1;
+                    }
+                    else
+                    {
+                        eat[NameEatOfOrder] += 1;
+                    }
+                }
             }
             return View(eat);
         }
