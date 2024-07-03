@@ -46,7 +46,7 @@ namespace DinningRoom.Controllers
 
         public IActionResult TableOfOrders()
         {
-            var orders = _dbContext.Orders.ToList();
+            var orders = _dbContext.Orders.OrderByDescending(o => o.Id).ToList();
 
             return View(orders);
         }  
