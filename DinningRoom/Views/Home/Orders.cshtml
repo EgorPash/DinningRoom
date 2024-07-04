@@ -1,0 +1,31 @@
+﻿@model List<List<StringsOfOrder>>
+
+<h1>Список всех заказов</h1>
+
+@foreach (var items in Model)
+{
+<table class="table">
+ <thead>
+  <tr>
+      <th>НомерЗаказа</th>
+  <th>НомерБлюда</th>
+  <th>Название</th>
+  <th>Количество</th>
+  <th>Цена</th>
+  
+  </tr>
+ </thead>
+ <tbody>
+  @foreach (var item in items)
+  {
+      <tr>
+          <td>@item.IdOrder</td>
+          <td>@item.IdEat</td>
+          <td>@item.NameEat</td>
+          <td>@item.Quantity</td>
+          <td>@item.Price.ToString("C")</td>
+      </tr >
+   }
+ </table>
+}
+}

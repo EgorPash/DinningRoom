@@ -1,0 +1,20 @@
+﻿@model Dictionary<string, int>
+
+<h1>Список количества еды в заказах сегодня</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Название</th>
+            <th>Количество</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (KeyValuePair<string, int> item in Model)
+        {
+            <tr>
+                <td>@item.Key</td>
+                <td>@item.Value</td>
+            </tr>
+        }
+    </tbody>
+</table>

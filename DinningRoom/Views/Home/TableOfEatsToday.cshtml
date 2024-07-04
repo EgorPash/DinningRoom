@@ -1,0 +1,24 @@
+﻿@model List<Eats>
+
+<h1>Список количества еды в заказах</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>НомерЕды</th>
+            <th>Название</th>
+            <th>Категория</th>
+            <th>Количество</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.IdEat</td>
+                <td>@item.NameEat</td>
+                <td>@item.NameCategory</td>
+                <td>@item.Quantity</td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,23 @@
+﻿@model List<StringsOfOrder>
+<p>Мой заказ № @ViewBag.Id</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>НомерБлюда</th>
+            <th>Название</th>
+            <th>Количество</th>
+            <th>Цена</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.IdEat</td>
+                <td>@item.NameEat</td>
+                <td>@item.Quantity</td>
+                <td>@item.Price.ToString("C")</td>
+            </tr>
+        }
+    </tbody>
+</table>

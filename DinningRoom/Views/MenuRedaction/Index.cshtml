@@ -1,0 +1,31 @@
+﻿@model List<DinningRoom.ViewModels.MenuItemModel>
+<h1>Редактирование меню</h1>
+<form asp-controller="MenuRedaction" asp-action="Index" method="post">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Название</th>
+                <th>Описание</th>
+                <th>Цена</th>
+                <th>Выбрать</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in @Model)
+            {
+                <tr>
+                    <td>@item.Name</td>
+                    <td>@item.Description</td>
+                    <td>@item.Price.ToString("C")</td>
+                    <td>
+                        <a asp-action="Delete" class="btn btn-primary">Удалить</a>
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning">Редактировать</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <a asp-action="Create" class="btn btn-primary">Добавить</a>
+</form>

@@ -33,6 +33,11 @@ namespace DinningRoom.Controllers
             return View();
         }
 
+        public IActionResult EditMenu()
+        {
+            return View();
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
