@@ -30,7 +30,8 @@ namespace DinningRoom.Controllers
 
         public IActionResult Index()
         {
-            return View(_menu);
+            var menus = _dbContext.MenuItems.ToList();
+            return View(menus);
         }
 
         public IActionResult Order(int id)
