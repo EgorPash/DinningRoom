@@ -21,9 +21,9 @@ namespace DinningRoom.Controllers
             _dbContext = dbContext;
             _menu = new List<MenuItemModel>
             {
-                new MenuItemModel { Id = 1, Name = "Бургер", Description = "Вкусный бургер", Price = 11 },
-                new MenuItemModel { Id = 2, Name = "Салат", Description = "Свежий салат", Price = 8 },
-                new MenuItemModel { Id = 3, Name = "Пицца", Description = "Ароматная пицца", Price = 16 }
+                new MenuItemModel { Id = 1, NameEat = "Бургер", Description = "Вкусный бургер", Price = 11 },
+                new MenuItemModel { Id = 2, NameEat = "Салат", Description = "Свежий салат", Price = 8 },
+                new MenuItemModel { Id = 3, NameEat = "Пицца", Description = "Ароматная пицца", Price = 16 }
             };
         }
 
@@ -64,7 +64,7 @@ namespace DinningRoom.Controllers
                 StringsOfOrder stringoforder = new StringsOfOrder();
 
                 stringoforder.IdEmployee = 1;
-                stringoforder.NameEat = _menu.Where(X => X.Id == item).Select(x => x.Name).FirstOrDefault();
+                stringoforder.NameEat = _menu.Where(X => X.Id == item).Select(x => x.NameEat).FirstOrDefault();
                 stringoforder.IdEat = _menu.Where(X => X.Id == item).Select(x => x.Id).FirstOrDefault();
                 stringoforder.Quantity = 1;
                 stringoforder.IdOrder = orders.Id;

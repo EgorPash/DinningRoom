@@ -51,36 +51,8 @@ namespace DinningRoom
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
-                    name: "menu",
-                    pattern: "menu",
-                    defaults: new { controller = "Menu", action = "Index" });
-                endpoints.MapControllerRoute(
-        name: "menu",
-        pattern: "menu",
-        defaults: new { controller = "Menu", action = "Index" });
-
-                endpoints.MapControllerRoute(
-                    name: "menu-create",
-                    pattern: "menu/create",
-                    defaults: new { controller = "MenuRedaction", action = "Create" });
-
-                endpoints.MapControllerRoute(
-                    name: "menu-edit",
-                    pattern: "menu/edit/{id}",
-                    defaults: new { controller = "MenuRedaction", action = "Edit" });
-
-                endpoints.MapControllerRoute(
-                    name: "menu-delete",
-                    pattern: "menu/delete/{id}",
-                    defaults: new { controller = "MenuRedaction", action = "Delete" });
-
-                endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
-                endpoints.MapControllerRoute(
-                   name: "order",
-                   pattern: "menu",
-                   defaults: new { controller = "Menu", action = "OrderMultipleItems" });
             });
         }
     }

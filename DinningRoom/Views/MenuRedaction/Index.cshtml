@@ -1,4 +1,4 @@
-﻿@model List<DinningRoom.ViewModels.MenuItemModel>
+﻿@model List<DinningRoom.Models.MenuItem>
 <h1>Редактирование меню</h1>
 <form asp-controller="MenuRedaction" asp-action="Index" method="post">
     <table class="table">
@@ -14,19 +14,19 @@
             @foreach (var item in @Model)
             {
                 <tr>
-                    <td>@item.Name</td>
-                    <td>@item.Description</td>
+                    <td>@item.NameEat</td>
+                    <td>@item.NameCategory</td>
                     <td>@item.Price.ToString("C")</td>
                     <td>
-                        <a asp-action="Delete" class="btn btn-primary">Удалить</a>
+                        <a href="@Url.Action("Edit", "MenuRedaction", new { id = item.Id })">Редактировать</a>
                     </td>
                     <td>
-                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning">Редактировать</a>
+                        <a href="@Url.Action("Delete", "MenuRedaction", new { id = item.Id })">Удалить</a>
                     </td>
                 </tr>
             }
         </tbody>
     </table>
-    <a asp-action="Create" class="btn btn-primary">Добавить</a>
+    <a href="@Url.Action("Create", "MenuRedaction")">Добавить</a>
 
 </form>

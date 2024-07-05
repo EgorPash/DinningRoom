@@ -3,6 +3,7 @@ using DinningRoom.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace DinningRoom.Controllers
 {
@@ -14,56 +15,67 @@ namespace DinningRoom.Controllers
         public MenuRedactionController(AppDbContext context)
         {
             _context = context;
-            _menuItems = new List<MenuItemModel>
-            {
-                new MenuItemModel { Id = 1, Name = "Бургер", Description = "Вкусный бургер", Price = 11 },
-                new MenuItemModel { Id = 2, Name = "Салат", Description = "Свежий салат", Price = 8 },
-                new MenuItemModel { Id = 3, Name = "Пицца", Description = "Ароматная пицца", Price = 16 }
-            };
+            //_menuItems = new List<MenuItemModel>
+            //{
+            //    new MenuItemModel { Id = 1, Name = "Бургер", Description = "Вкусный бургер", Price = 11 },
+            //    new MenuItemModel { Id = 2, Name = "Салат", Description = "Свежий салат", Price = 8 },
+            //    new MenuItemModel { Id = 3, Name = "Пицца", Description = "Ароматная пицца", Price = 16 }
+            //};
         }
         public IActionResult Index()
         {
-            return View(_menuItems);
+            var EatsItems = _context.MenuItems.ToList();
+            return View(EatsItems);
         }
 
-        public IActionResult TableOfOrders()
+        public IActionResult Create()
         {
             return View();
         }
 
+
         [HttpPost]
-        public IActionResult AddMenuItem(MenuItemModel newItem)
+        public IActionResult Create(MenuItemModel newItem)
         {
             if (ModelState.IsValid)
             {
-                _context.Menus.Add(new Menu { NameEat = newItem.Name, Price = newItem.Price, IdCategory = newItem.IdCategory });
+                _context.MenuItems.Add(new MenuItem { NameEat = newItem.NameEat, Price = newItem.Price, NameCategory = newItem.NameCategory });
                 _context.SaveChanges();
                 return RedirectToAction("Index"); // или другой метод для перенаправления
             }
             return View(newItem);
         }
-        public IActionResult DeleteMenuItem(int id)
+        public IActionResult Delete(int id)
         {
-            var menuItem = _context.Menus.Find(id);
+            var menuItem = _context.MenuItems.Find(id);
             if (menuItem != null)
             {
-                _context.Menus.Remove(menuItem);
+                _context.MenuItems.Remove(menuItem);
                 _context.SaveChanges();
             }
             return RedirectToAction("Index"); // или другой метод для перенаправления
         }
 
+        public IActionResult Edit(int id)
+        {
+            ViewBag.Id = id;
+            var EatItem = _context.MenuItems.Where(item => item.Id == id).ToList()[0];
+            return View(EatItem);
+        }
+
+
         [HttpPost]
-        public IActionResult UpdateMenuItem(MenuItemModel updatedItem)
+        public IActionResult Edit(MenuItemModel updatedItem)
         {
             if (ModelState.IsValid)
             {
-                var existingItem = _context.Menus.Find(updatedItem.Id);
+                var existingItem = _context.MenuItems.Find(updatedItem.Id);
                 if (existingItem != null)
                 {
-                    existingItem.NameEat = updatedItem.Name;
+               
+                    existingItem.NameEat = updatedItem.NameEat;
                     existingItem.Price = updatedItem.Price;
-                    existingItem.IdCategory = updatedItem.IdCategory;
+                    existingItem.NameCategory = updatedItem.NameCategory;
                     _context.SaveChanges();
                     return RedirectToAction("Index"); // или другой метод для перенаправления
                 }
