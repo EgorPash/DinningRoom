@@ -19,12 +19,6 @@ namespace DinningRoom.Controllers
         public MenuController(AppDbContext dbContext)
         {
             _dbContext = dbContext;
-            _menu = new List<MenuItemModel>
-            {
-                new MenuItemModel { Id = 1, NameEat = "Бургер", Description = "Вкусный бургер", Price = 11 },
-                new MenuItemModel { Id = 2, NameEat = "Салат", Description = "Свежий салат", Price = 8 },
-                new MenuItemModel { Id = 3, NameEat = "Пицца", Description = "Ароматная пицца", Price = 16 }
-            };
         }
 
 
