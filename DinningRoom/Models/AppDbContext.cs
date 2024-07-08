@@ -14,7 +14,6 @@ namespace DinningRoom.Models
         public DbSet<Orders> Orders { get; set; }
         public DbSet<Employee> Employees { get; set; }
         public DbSet<MenuItem> MenuItems { get; set; }
-        public DbSet<Users> Users { get; set; }
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
         }

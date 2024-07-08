@@ -22,6 +22,9 @@
                 <td>
                     <a href="@Url.Action("Order","Menu", new { id = item.Id})"> Перейти</a>
                 </td>
+                <td>
+                    <a href="@Url.Action("Delete", "Home", new { id = item.Id })">Удалить</a>
+                </td>
             </tr>
         }
     </tbody>

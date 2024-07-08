@@ -27,7 +27,16 @@ namespace DinningRoom
             services.AddControllersWithViews();
             services.AddDbContext<AppDbContext>(options =>
         options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = "Cookies";
+                options.DefaultChallengeScheme = "Cookies";
+            })
+    .AddCookie("Cookies", options =>
+    {
+        options.LoginPath = "/Login";
+        options.LogoutPath = "/Logout";
+    });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -46,6 +55,7 @@ namespace DinningRoom
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

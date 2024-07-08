@@ -8,6 +8,7 @@ using Microsoft.Extensions.Logging;
 using DinningRoom.Models;
 using DinningRoom.ViewModels;
 using Microsoft.EntityFrameworkCore;
+using static NuGet.Packaging.PackagingConstants;
 
 namespace DinningRoom.Controllers
 {
@@ -54,6 +55,21 @@ namespace DinningRoom.Controllers
             var orders = _dbContext.Orders.OrderByDescending(o => o.Id).ToList();
 
             return View(orders);
-        }  
+        }
+        public IActionResult Delete(int id)
+        {
+            var IdOrder = _dbContext.Orders.Find(id);
+            var orderItems = _dbContext.StringsOfOrders.Where(item => item.IdOrder == id).ToList();
+            foreach (var NameEat in orderItems)
+            {
+                _dbContext.StringsOfOrders.Remove(NameEat);  
+            }
+            if (IdOrder != null)
+            {
+                _dbContext.Orders.Remove(IdOrder);
+            }
+            _dbContext.SaveChanges();
+            return RedirectToAction("TableOfOrders"); // или другой метод для перенаправления
+        }
     }
 }

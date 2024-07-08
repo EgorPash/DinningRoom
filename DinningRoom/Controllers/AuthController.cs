@@ -1,10 +1,12 @@
 ﻿using DinningRoom.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 
 namespace DinningRoom.Controllers
 {
+    [Authorize]
     public class AuthController : Controller
     {
         private readonly AppDbContext _context;
@@ -21,15 +23,15 @@ namespace DinningRoom.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register(Users user)
+        public async Task<IActionResult> Register(Employee employee)
         {
             if (ModelState.IsValid)
             {
-                _context.Users.Add(user);
+                _context.Employees.Add(employee);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Login");
             }
-            return View(user);
+            return View(employee);
         }
 
         [HttpGet]
@@ -41,7 +43,7 @@ namespace DinningRoom.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(string email, string password)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email && u.Password == password);
+            var user = await _context.Employees.FirstOrDefaultAsync(e => e.Email == email && e.Password == password);
             if (user != null)
             {
                 // Выполните вход пользователя

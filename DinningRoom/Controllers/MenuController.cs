@@ -12,13 +12,13 @@ namespace DinningRoom.Controllers
 {
     public class MenuController : Controller
     {
-        public readonly List<MenuItemModel> _menu;
 
         private readonly AppDbContext _dbContext;
 
         public MenuController(AppDbContext dbContext)
         {
             _dbContext = dbContext;
+            
         }
 
 
@@ -43,12 +43,12 @@ namespace DinningRoom.Controllers
         [HttpPost]
         public IActionResult Order(List<int> selectedItems)
         {
-
+            var menus = _dbContext.MenuItems.ToList();
             Orders orders = new Orders();
 
             orders.IdEmployee = 1;
             orders.DateOfOrder = DateTime.Now;
-            orders.TotalSum = _menu.Where(item => selectedItems.Contains(item.Id)).Sum(x => x.Price);
+            orders.TotalSum = menus.Where(item => selectedItems.Contains(item.Id)).Sum(x => x.Price);
             _dbContext.Orders.Add(orders);
             _dbContext.SaveChanges();
 
@@ -59,17 +59,16 @@ namespace DinningRoom.Controllers
                 StringsOfOrder stringoforder = new StringsOfOrder();
 
                 stringoforder.IdEmployee = 1;
-                stringoforder.NameEat = _menu.Where(X => X.Id == item).Select(x => x.NameEat).FirstOrDefault();
-                stringoforder.IdEat = _menu.Where(X => X.Id == item).Select(x => x.Id).FirstOrDefault();
+                stringoforder.NameEat = menus.Where(X => X.Id == item).Select(x => x.NameEat).FirstOrDefault();
+                stringoforder.IdEat = menus.Where(X => X.Id == item).Select(x => x.Id).FirstOrDefault();
                 stringoforder.Quantity = 1;
                 stringoforder.IdOrder = orders.Id;
-                stringoforder.Price = _menu.Where(X => X.Id == item).Select(x => x.Price).FirstOrDefault();
+                stringoforder.Price = menus.Where(X => X.Id == item).Select(x => x.Price).FirstOrDefault();
                 _dbContext.StringsOfOrders.Add(stringoforder);
                 _dbContext.SaveChanges();
             }
 
             return RedirectToAction("Order", new { id = orders.Id });
-
 
         }
         public IActionResult TableOfEatsToday()
