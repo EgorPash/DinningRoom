@@ -1,12 +1,15 @@
 ﻿using DinningRoom.Models;
-using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace DinningRoom.Controllers
 {
-    [Authorize]
+    //  [Authorize]
     public class AuthController : Controller
     {
         private readonly AppDbContext _context;
@@ -27,6 +30,11 @@ namespace DinningRoom.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (employee.Password != employee.ConfirmPassword)
+                {
+                    ModelState.AddModelError("ConfirmPassword", "Пароль и подтверждение пароля должны совпадать.");
+                    return View(employee);
+                }
                 _context.Employees.Add(employee);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Login");
@@ -46,10 +54,18 @@ namespace DinningRoom.Controllers
             var user = await _context.Employees.FirstOrDefaultAsync(e => e.Email == email && e.Password == password);
             if (user != null)
             {
-                // Выполните вход пользователя
+                var claims = new List<Claim> { new Claim(ClaimTypes.Name, email) };
+                // создаем объект ClaimsIdentity
+                ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, "Cookies");
+                // установка аутентификационных куки
+                await this.HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
+
                 return RedirectToAction("Index", "Home");
             }
-            ModelState.AddModelError("", "Неверный email или пароль.");
+            else
+            {
+                ModelState.AddModelError("", "Неверный email или пароль.");
+            }
             return View();
         }
 

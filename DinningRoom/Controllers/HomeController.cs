@@ -9,9 +9,11 @@ using DinningRoom.Models;
 using DinningRoom.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using static NuGet.Packaging.PackagingConstants;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DinningRoom.Controllers
 {
+   [Authorize]
     public class HomeController : Controller
     {
         private readonly AppDbContext _dbContext;

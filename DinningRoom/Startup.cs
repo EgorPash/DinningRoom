@@ -34,7 +34,7 @@ namespace DinningRoom
             })
     .AddCookie("Cookies", options =>
     {
-        options.LoginPath = "/Login";
+        options.LoginPath = "/Auth/Login";
         options.LogoutPath = "/Logout";
     });
         }
