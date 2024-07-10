@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace DinningRoom.Controllers
 {
-   [Authorize]
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly AppDbContext _dbContext;

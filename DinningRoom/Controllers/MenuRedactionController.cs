@@ -1,5 +1,6 @@
 ﻿using DinningRoom.Models;
 using DinningRoom.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -7,6 +8,7 @@ using System.Linq;
 
 namespace DinningRoom.Controllers
 {
+    [Authorize]
     public class MenuRedactionController : Controller
     {
         public readonly List<MenuItemModel> _menuItems;

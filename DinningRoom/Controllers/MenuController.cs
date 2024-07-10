@@ -1,5 +1,6 @@
 ﻿using DinningRoom.Models;
 using DinningRoom.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -10,6 +11,7 @@ using static NuGet.Packaging.PackagingConstants;
 
 namespace DinningRoom.Controllers
 {
+    [Authorize]
     public class MenuController : Controller
     {
 

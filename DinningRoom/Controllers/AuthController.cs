@@ -6,10 +6,10 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DinningRoom.Controllers
 {
-    //  [Authorize]
     public class AuthController : Controller
     {
         private readonly AppDbContext _context;
@@ -69,8 +69,10 @@ namespace DinningRoom.Controllers
             return View();
         }
 
-        public IActionResult Logout()
+        public async Task<IActionResult> Logout()
         {
+            await this.HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
             // Выполните выход пользователя
             return RedirectToAction("Index", "Home");
         }
