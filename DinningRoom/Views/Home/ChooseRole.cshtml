@@ -1,0 +1,14 @@
+﻿@model DinningRoom.Models.Employee
+
+<form asp-controller="Home" asp-action="ChooseMode" method="post">
+    <div class="form-group">
+        <label for="mode">Выберите Вашу профессию:</label>
+        <select class="form-control" id="mode" name="mode">
+            <option value="">-- Выберите --</option>
+            <option value="Сотрудник компании">Сотрудник компании</option>
+            <option value="Сотрудник столовой">Сотрудник столовой</option>
+            <option value="Администратор">Администратор</option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Продолжить</button>
+</form>

@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using System.Linq;
+using Microsoft.AspNetCore.Http;
 
 namespace DinningRoom.Controllers
 {
@@ -35,9 +37,10 @@ namespace DinningRoom.Controllers
                     ModelState.AddModelError("ConfirmPassword", "Пароль и подтверждение пароля должны совпадать.");
                     return View(employee);
                 }
+                employee.Role = Request.Form["role"]; // Получение значения из формы
                 _context.Employees.Add(employee);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Login");
+                return RedirectToAction("ChooseMode", "Home");
             }
             return View(employee);
         }
@@ -54,7 +57,14 @@ namespace DinningRoom.Controllers
             var user = await _context.Employees.FirstOrDefaultAsync(e => e.Email == email && e.Password == password);
             if (user != null)
             {
-                var claims = new List<Claim> { new Claim(ClaimTypes.Name, email) };
+                // Сохранение роли в Claims
+                var role = await _context.Employees.Where(e => e.Email == email).Select(e => e.Role).FirstOrDefaultAsync();
+                HttpContext.Session.SetString("UserRole", role);
+                var claims = new List<Claim> 
+                { 
+                    new Claim(ClaimTypes.Name, email),
+                    new Claim(ClaimTypes.Role, role)
+                };
                 // создаем объект ClaimsIdentity
                 ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, "Cookies");
                 // установка аутентификационных куки

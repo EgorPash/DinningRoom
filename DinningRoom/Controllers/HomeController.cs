@@ -10,6 +10,8 @@ using DinningRoom.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using static NuGet.Packaging.PackagingConstants;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
 
 namespace DinningRoom.Controllers
 {
@@ -26,9 +28,46 @@ namespace DinningRoom.Controllers
             _dbContext = dbContext;
         }
 
-        public IActionResult Index()
+        [HttpGet]
+        public IActionResult ChooseMode()
         {
             return View();
+        }
+
+        [HttpPost]
+        public IActionResult ChooseMode(string mode)
+        {
+            // Сохранение выбранного режима в сессии
+            HttpContext.Session.SetString("SelectedMode", mode);
+
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult Index()
+        {
+            // Получение выбранного режима из сессии
+            string selectedMode = HttpContext.Session.GetString("SelectedMode");
+
+            // Проверка роли пользователя
+            string userRole = User.FindFirst(ClaimTypes.Role)?.Value;
+
+            // Настройка отображения меню в зависимости от роли и выбранного режима
+            if (selectedMode == "Сотрудник компании" && userRole == "Сотрудник компании")
+            {
+                return View("IndexForCompanyEmployee");
+            }
+            else if (selectedMode == "Сотрудник столовой" && userRole == "Сотрудник столовой")
+            {
+                return View("IndexForDiningEmployee");
+            }
+            else if (userRole == "Администратор")
+            {
+                return View(); // Используйте стандартный Index для администратора
+            }
+            else
+            {
+                return RedirectToAction("ChooseMode"); // Перенаправление на выбор режима, если пользователь не авторизован
+            }
         }
 
         public IActionResult Privacy()
