@@ -52,6 +52,7 @@ namespace DinningRoom.Controllers
         }
 
         [HttpPost]
+        [HttpPost]
         public async Task<IActionResult> Login(string email, string password)
         {
             var user = await _context.Employees.FirstOrDefaultAsync(e => e.Email == email && e.Password == password);

@@ -16,16 +16,19 @@ using System.Security.Claims;
 namespace DinningRoom.Controllers
 {
     [Authorize]
+
     public class HomeController : Controller
     {
         private readonly AppDbContext _dbContext;
 
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger, AppDbContext dbContext)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        public HomeController(ILogger<HomeController> logger, AppDbContext dbContext, IHttpContextAccessor httpContextAccessor)
         {
             _logger = logger;
             _dbContext = dbContext;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         [HttpGet]
